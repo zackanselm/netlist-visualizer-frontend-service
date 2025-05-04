@@ -7,5 +7,5 @@
     "server",
     ".env"
   ],
-  "ext": "ts,js,json,yaml,yml"
+  "ext": "ts,tsx,js,json,yaml,yml"
 }

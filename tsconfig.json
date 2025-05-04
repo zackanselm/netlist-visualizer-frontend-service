@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ESNEXT"],
+    "lib": ["ESNEXT", "DOM"],
     "strict": true,
     "module": "CommonJS",
     "esModuleInterop": true,
@@ -23,9 +23,9 @@
     "outDir": "dist",
     "typeRoots": ["node_modules/@types"],
     "resolveJsonModule": true,
-    "baseUrl": "."
-
+    "baseUrl": ".",
+    "jsx": "react"
   },
-  "include": ["server/**/*.ts", "server/common/env.ts"],
+  "include": ["server/**/*.{ts,tsx}", "client/**/*.{ts,tsx}", "server/common/env.ts", "server/common/server.tsx"],
   "exclude": ["node_modules"]
 }
