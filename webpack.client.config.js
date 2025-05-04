@@ -5,6 +5,7 @@ const { merge } = require('webpack-merge'); // eslint-disable-line import/no-ext
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line import/no-extraneous-dependencies
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -15,7 +16,7 @@ const deps = require('./package.json').dependencies;
 const PATHS = {
     app: path.join(__dirname, 'client'),
     dist: path.join(__dirname, 'dist/static'),
-    distClient: path.join(__dirname, 'dist/client'),
+    assets: path.join(__dirname, 'public'),
     public: '/',
 };
 
@@ -129,14 +130,22 @@ const common = merge([
                 },
             }),
             new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: [PATHS.distClient],
+                cleanOnceBeforeBuildPatterns: [PATHS.dist],
             }),
             new DuplicatePackageCheckerPlugin(
                 {
                     // Also show module that is requiring each duplicate package (default: false)
                     verbose: true,
                 }
-            )
+            ),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: PATHS.assets,
+                        to: PATHS.dist,
+                    },
+                ],
+            }),
         ],
         devtool: 'source-map',
         externals: Object.keys(pkg.peerDependencies || {}),
