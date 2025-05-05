@@ -10,8 +10,10 @@ import { StaticRouter } from 'react-router-dom';
 import l from './logger';
 import routeConfig, { RouteConfig } from '../route-config';
 import MainContextProvider from '../../client/store/MainContextProvider';
+import Layout from '../../client/components/Layout';
 
 import errorHandler from '../api/middlewares/error.handler';
+import { MantineProvider } from '@mantine/core';
 
 declare global {
   namespace NodeJS {
@@ -66,9 +68,11 @@ export default class ExpressServer {
 
         const markup = ReactDOMServer.renderToString(
           <MainContextProvider>
+            <MantineProvider>
               <StaticRouter location={req.url}>
-                  Hello, Server World
+                  <Layout />
               </StaticRouter>
+            </MantineProvider>
           </MainContextProvider>,
         );
 

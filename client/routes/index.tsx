@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteObject } from 'react-router-dom';
-// import { AuthRoute } from '../redux/routing';
+import AuthRoute from '../components/routing/AuthRoute';
 import LoginPage from './LoginPage';
 
 export type IRoute = RouteObject & {
@@ -22,6 +22,14 @@ const getRoutes = (routePropsConfig: IRoutePropsConfig): IRoute[] => [
     // },
     {
         path: '/',
+        element: <AuthRoute
+            component={LoginPage}
+            isAuthorized={routePropsConfig.isAuthorized()}
+            // redirectPath={'/login'}
+        />,
+    },
+    {
+        path: '/login',
         element: <LoginPage />,
     },
     // {

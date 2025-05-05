@@ -4,7 +4,7 @@ const webpack = require('webpack'); // eslint-disable-line import/no-extraneous-
 const { merge } = require('webpack-merge'); // eslint-disable-line import/no-extraneous-dependencies
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line import/no-extraneous-dependencies
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -129,9 +129,9 @@ const common = merge([
                     },
                 },
             }),
-            new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: [PATHS.dist],
-            }),
+            // new CleanWebpackPlugin({
+            //     cleanOnceBeforeBuildPatterns: [PATHS.dist],
+            // }),
             new DuplicatePackageCheckerPlugin(
                 {
                     // Also show module that is requiring each duplicate package (default: false)

@@ -3,3 +3,14 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
