@@ -14,3 +14,19 @@ body {
     box-sizing: border-box;
     min-height: 100vh;
 }
+
+.page {
+    margin: 1rem;
+    padding: .5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: .75rem 1rem;
+    color: #ffffff;
+    background-color: #000000;
+    outline-color: #000000;
+    border-bottom: #dee2e6;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px 0px;
+}

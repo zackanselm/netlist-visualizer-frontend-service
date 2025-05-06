@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteObject } from 'react-router-dom';
 import AuthRoute from '../components/routing/AuthRoute';
+import HomePage from './HomePage';
 import LoginPage from './LoginPage';
 
 export type IRoute = RouteObject & {
@@ -23,9 +24,9 @@ const getRoutes = (routePropsConfig: IRoutePropsConfig): IRoute[] => [
     {
         path: '/',
         element: <AuthRoute
-            component={LoginPage}
+            component={HomePage}
             isAuthorized={routePropsConfig.isAuthorized()}
-            // redirectPath={'/login'}
+            redirectPath={'/login'}
         />,
     },
     {

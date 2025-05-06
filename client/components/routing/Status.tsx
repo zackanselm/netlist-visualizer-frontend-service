@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 
-interface IStatusProps {
+interface StatusProps {
     children: React.ReactNode;
     statusCode: any;
 }
 
-class Status extends React.Component<IStatusProps, any> {
+class Status extends React.Component<StatusProps, any> {
     render() {
         const { children, statusCode } = this.props;
 
