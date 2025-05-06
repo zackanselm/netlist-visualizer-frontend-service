@@ -7,6 +7,7 @@ import MainContextProvider from './store/MainContextProvider';
 // Third Party Styles
 // import 'react-datetime/css/react-datetime.css';
 import '@mantine/core/styles.css';
+import '@xyflow/react/dist/style.css';
 
 import './styles/root.scss';
 import Layout from './components/Layout';
