@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
@@ -11,6 +12,9 @@ import '@xyflow/react/dist/style.css';
 
 import './styles/root.scss';
 import Layout from './components/Layout';
+
+export const API_BASE_URL = 'http://localhost:3000/api/v1'
+axios.defaults.baseURL = API_BASE_URL;
 
 const rootEl: any = document.getElementById('app');
 

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import BrowserStorage from '../store/BrowserStorage';
 
 export interface LoginInputs {
@@ -8,7 +9,15 @@ class UsersService {
     constructor() {}
 
     login = (userDetails: LoginInputs) => {
-        return new Promise((resolve) => resolve(BrowserStorage.setUser(userDetails)));
+        return axios({
+            method: 'post',
+            url: `/users`,
+            data: {
+                email: userDetails.email,
+            }
+        }).then(() => {
+            return new Promise((resolve) => resolve(BrowserStorage.setUser(userDetails)));
+        })
     };
     
     logout = () => {
