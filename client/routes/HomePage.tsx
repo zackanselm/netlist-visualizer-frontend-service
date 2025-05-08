@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Container, Center, Stepper, Group, Button, Notification, Affix, Transition } from '@mantine/core';
 import VisualizerCanvas from '../components/VisualizerCanvas';
 import VisualizerUploader from '../components/VisualizerUploader';
 import { mapNetlistToReactFlow, NetlistJson, NetlistSchema } from '../utilities/dataMappers';
+import SubmissionsService from '../services/SubmissionsService';
 
 const defaultNetlistJSON = {
     components: [
@@ -33,6 +35,17 @@ const HomePage = () => {
     const [netlistUploaderInput, setNetlistUploaderInput] = React.useState(defaultNetlistJSONStr);
     const [stableNetlistJson, setStableNetlistJson] = React.useState(mapNetlistToReactFlow(JSON.parse(defaultNetlistJSONStr)));
 
+    useEffect(() => {
+        SubmissionsService.all().then((response) => {
+            const responseParsed = response.data.map((submission: any) => {
+                return {
+                    _id: submission._id,
+                    netlistJson: JSON.parse(submission.netlistJson)
+                };
+            });
+        })
+    }, []);
+
     const validateAndSetNetlistJSON = (): boolean => {
         const parsed = JSON.parse(netlistUploaderInput);
         if (!isNetlistJson(parsed)) {
@@ -51,6 +64,11 @@ const HomePage = () => {
         if (next === 1) {
             const isValid = validateAndSetNetlistJSON();
             if (!isValid) { return current; }
+        }
+        if (current === 2) {
+            SubmissionsService.create(netlistUploaderInput).then((response) => {
+                console.log(response);
+            });
         }
         return next;
     });
