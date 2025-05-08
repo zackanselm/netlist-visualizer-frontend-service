@@ -31,7 +31,11 @@ const getRoutes = (routePropsConfig: IRoutePropsConfig): IRoute[] => [
     },
     {
         path: '/login',
-        element: <LoginPage />,
+        element: <AuthRoute
+            component={LoginPage}
+            isAuthorized={!routePropsConfig.isAuthorized()}
+            redirectPath={'/'}
+        />,
     },
     // {
     //     path: '/register',

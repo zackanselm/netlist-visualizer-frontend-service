@@ -33,7 +33,7 @@ const LoginPage = ({ navigation }: LoginPageProps) => {
     const onLogin = (userDetails: LoginInputs) => {
         UsersService.login(userDetails).then(() => {
             updateUserEmail(userDetails.email);
-            navigation.navigate('/')
+            navigation.navigate('/');
         });
     }
 
