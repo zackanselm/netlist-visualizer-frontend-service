@@ -105,6 +105,9 @@ const HomePage = () => {
             const isValid = validateAndSetNetlistJSON();
             if (!isValid) { return active; }
         }
+        if (active !== 1 && step === 2) {
+            return active;
+        }
 
         return step;
     })

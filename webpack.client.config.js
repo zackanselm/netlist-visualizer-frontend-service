@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); // eslint-disable-line
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 // For externals
 const pkg = require('./package.json');
@@ -174,11 +175,6 @@ const buildProd = () => merge([
         mode: 'production',
     },
     // analyzeBundle(),
-    {
-        plugins: [new ESLintPlugin({
-            emitWarning: true,
-        })],
-    },
     loadCSS(null, 'production'),
     {
         optimization: {

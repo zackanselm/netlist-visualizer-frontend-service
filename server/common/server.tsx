@@ -51,7 +51,12 @@ export default class ExpressServer {
     );
     app.use(bodyParser.text({ limit: process.env.REQUEST_LIMIT || '100kb' }));
     app.use(cookieParser(process.env.SESSION_SECRET));
-    app.use(express.static(`${root}/dist/static`));
+    console.log(process.env.NODE_ENV)
+    if (process.env.NODE_ENV === 'development') {
+      app.use(express.static(`${root}/dist/static`));
+    } else {
+      app.use(express.static(path.join(__dirname, '../../static/')));
+    }
 
     routeConfig.forEach((config: RouteConfig) => {
       const routePath = config.route;

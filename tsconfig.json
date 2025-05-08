@@ -26,6 +26,6 @@
     "baseUrl": ".",
     "jsx": "react"
   },
-  "include": ["server/**/*.{ts,tsx}", "client/**/*.{ts,tsx}", "server/common/env.ts", "server/common/server.tsx"],
+  "include": ["server/index.ts", "server/**/*.{ts,tsx}", "client/**/*.{ts,tsx}", "server/common/env.ts", "server/common/server.tsx"],
   "exclude": ["node_modules"]
 }
