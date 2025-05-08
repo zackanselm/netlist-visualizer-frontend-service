@@ -8,11 +8,15 @@ import MainContext from './MainContext';
 const storedUser = BrowserStorage.getUser()
 
 const MainContextProvider = ({ children }: PropsWithChildren<MainContextProviderProps>) => {
-  const [exampleValue, setExampleValue] = useState('');
+  const [submissions, setSubmissions] = useState([] as any[]);
   const [userEmail, setUserEmail] = useState(storedUser.email || '');
 
-  const updateExampleValue = (newValue: string) => {
-    setExampleValue(newValue);
+  const addSubmissions = (newSubmissions: any[]) => {
+    setSubmissions(prevItems => [...prevItems, ...newSubmissions]);
+  };
+
+  const getAllSubmissions = (newSubmissions: any[]) => {
+    setSubmissions([...newSubmissions]);
   };
 
   const updateUserEmail = (email: string) => {
@@ -21,9 +25,10 @@ const MainContextProvider = ({ children }: PropsWithChildren<MainContextProvider
 
   return (
     <MainContext.Provider value={{
-      exampleValue,
+      submissions,
       userEmail,
-      updateExampleValue,
+      getAllSubmissions,
+      addSubmissions,
       updateUserEmail,
     }}>
       {children}

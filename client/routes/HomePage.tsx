@@ -1,10 +1,24 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Container, Center, Stepper, Group, Button, Notification, Affix, Transition } from '@mantine/core';
+import {
+    Accordion,
+    Container,
+    Center,
+    Drawer,
+    Stepper,
+    Group,
+    Button,
+    Notification,
+    Affix,
+    Transition,
+    ScrollArea,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import VisualizerCanvas from '../components/VisualizerCanvas';
 import VisualizerUploader from '../components/VisualizerUploader';
 import { mapNetlistToReactFlow, NetlistJson, NetlistSchema } from '../utilities/dataMappers';
 import SubmissionsService from '../services/SubmissionsService';
+import MainContext from '../store/MainContext';
 
 const defaultNetlistJSON = {
     components: [
@@ -29,8 +43,10 @@ const isNetlistJson = (netlist: any) => {
 }
 
 const HomePage = () => {
+    const { submissions, addSubmissions, getAllSubmissions }: any = React.useContext(MainContext);
     const [active, setActive] = React.useState(0);
     const [hasNotification, setNotifcation] = React.useState(false);
+    const [drawerOpened, { open: openDrawer, close: closeDrawer }] = useDisclosure(false);
     const defaultNetlistJSONStr = JSON.stringify(defaultNetlistJSON, null, 2)
     const [netlistUploaderInput, setNetlistUploaderInput] = React.useState(defaultNetlistJSONStr);
     const [stableNetlistJson, setStableNetlistJson] = React.useState(mapNetlistToReactFlow(JSON.parse(defaultNetlistJSONStr)));
@@ -39,10 +55,11 @@ const HomePage = () => {
         SubmissionsService.all().then((response) => {
             const responseParsed = response.data.map((submission: any) => {
                 return {
-                    _id: submission._id,
+                    ...submission,
                     netlistJson: JSON.parse(submission.netlistJson)
                 };
             });
+            getAllSubmissions(responseParsed);
         })
     }, []);
 
@@ -67,8 +84,11 @@ const HomePage = () => {
         }
         if (current === 2) {
             SubmissionsService.create(netlistUploaderInput).then((response) => {
-                console.log(response);
-            });
+                addSubmissions([{
+                    _id: response.data._id,
+                    netlistJson: JSON.parse(response.data.netlistJson)
+                }]);
+            }).catch((err) => console.log(err?.data));
         }
         return next;
     });
@@ -109,6 +129,11 @@ const HomePage = () => {
     return (
         <div className="page">
             <Container>
+                <Center mb="xl">
+                    <Button variant="default" onClick={openDrawer}>
+                        View Submission History
+                    </Button>
+                </Center>
                 <Stepper active={active} onStepClick={handleStepClick}>
                     <Stepper.Step label="First step" description="Upload a netlist" mb="lg">
                         <Center>
@@ -144,6 +169,22 @@ const HomePage = () => {
                     <Button onClick={nextStep}>{getNextBtnLabel()}</Button>
                 </Group>
             </Container>
+            <Drawer opened={drawerOpened} onClose={closeDrawer} title="Submission History">
+                <Accordion variant="separated" defaultValue="Apples">
+                    {
+                        submissions.map((submission: any) => (
+                            <Accordion.Item key={submission._id} value={submission._id}>
+                                <Accordion.Control>{submission._id} {submission.created_at?.toString()}</Accordion.Control>
+                                <Accordion.Panel>
+                                    <ScrollArea h={100}>
+                                        {JSON.stringify(submission.netlistJson, null, 2)}
+                                    </ScrollArea>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                        ))
+                    }
+                </Accordion>
+            </Drawer>
             <Affix position={{ bottom: 20, right: 20 }}>
                 <Transition transition="slide-up" mounted={hasNotification}>
                 {(transitionStyles) => (
