@@ -7,20 +7,27 @@ export interface LoginInputs {
 class SubmissionsService {
     constructor() {}
 
-    create = (netlistJson: string) => {
+    create = (userId: string, netlistJson: string) => {
         return axios({
             method: 'post',
             url: `/submissions`,
             data: {
-                netlistJson,
+                user_id: userId,
+                netlist_json: netlistJson,
+            },
+            headers: {
+                'x-netlist-userid': userId
             }
         });
     };
     
-    all = () => {
+    all = (userId: string) => {
         return axios({
             method: 'get',
             url: `/submissions`,
+            headers: {
+                'x-netlist-userid': userId
+            }
         });
     };
 }

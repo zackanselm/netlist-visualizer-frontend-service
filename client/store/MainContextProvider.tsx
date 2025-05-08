@@ -10,6 +10,7 @@ const storedUser = BrowserStorage.getUser()
 const MainContextProvider = ({ children }: PropsWithChildren<MainContextProviderProps>) => {
   const [submissions, setSubmissions] = useState([] as any[]);
   const [userEmail, setUserEmail] = useState(storedUser.email || '');
+  const [userId, updateUserId] = useState(storedUser.id || '');
 
   const addSubmissions = (newSubmissions: any[]) => {
     setSubmissions(prevItems => [...prevItems, ...newSubmissions]);
@@ -27,9 +28,11 @@ const MainContextProvider = ({ children }: PropsWithChildren<MainContextProvider
     <MainContext.Provider value={{
       submissions,
       userEmail,
+      userId,
       getAllSubmissions,
       addSubmissions,
       updateUserEmail,
+      updateUserId,
     }}>
       {children}
     </MainContext.Provider>

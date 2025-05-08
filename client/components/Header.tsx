@@ -17,11 +17,13 @@ interface HeaderProps extends HeaderRouterProps {
 }
 
 const Header = ({ isAuthorized, navigation }: HeaderProps) => {
-    const { updateUserEmail }: any = React.useContext(MainContext);
+    const { updateUserEmail, updateUserId, getAllSubmissions }: any = React.useContext(MainContext);
 
     const onLogout = () => {
         UsersService.logout().then(() => {
             updateUserEmail('');
+            updateUserId('');
+            getAllSubmissions([]);
             navigation.navigate('/')
         });
     }

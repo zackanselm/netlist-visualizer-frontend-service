@@ -15,8 +15,13 @@ class UsersService {
             data: {
                 email: userDetails.email,
             }
-        }).then(() => {
-            return new Promise((resolve) => resolve(BrowserStorage.setUser(userDetails)));
+        }).then((response) => {
+            const userId = response.data._id;
+            BrowserStorage.setUser({
+                id: userId,
+                ...userDetails
+            })
+            return userId;
         })
     };
     

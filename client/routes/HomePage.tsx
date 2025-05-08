@@ -43,7 +43,7 @@ const isNetlistJson = (netlist: any) => {
 }
 
 const HomePage = () => {
-    const { submissions, addSubmissions, getAllSubmissions }: any = React.useContext(MainContext);
+    const { submissions, addSubmissions, getAllSubmissions, userId }: any = React.useContext(MainContext);
     const [active, setActive] = React.useState(0);
     const [hasNotification, setNotifcation] = React.useState(false);
     const [drawerOpened, { open: openDrawer, close: closeDrawer }] = useDisclosure(false);
@@ -52,11 +52,11 @@ const HomePage = () => {
     const [stableNetlistJson, setStableNetlistJson] = React.useState(mapNetlistToReactFlow(JSON.parse(defaultNetlistJSONStr)));
 
     useEffect(() => {
-        SubmissionsService.all().then((response) => {
+        SubmissionsService.all(userId).then((response) => {
             const responseParsed = response.data.map((submission: any) => {
                 return {
                     ...submission,
-                    netlistJson: JSON.parse(submission.netlistJson)
+                    netlistJson: JSON.parse(submission.netlist_json)
                 };
             });
             getAllSubmissions(responseParsed);
@@ -83,10 +83,10 @@ const HomePage = () => {
             if (!isValid) { return current; }
         }
         if (current === 2) {
-            SubmissionsService.create(netlistUploaderInput).then((response) => {
+            SubmissionsService.create(userId, netlistUploaderInput).then((response) => {
                 addSubmissions([{
                     _id: response.data._id,
-                    netlistJson: JSON.parse(response.data.netlistJson)
+                    netlistJson: JSON.parse(response.data.netlist_json)
                 }]);
             }).catch((err) => console.log(err?.data));
         }

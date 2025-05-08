@@ -28,11 +28,12 @@ const LoginPage = ({ navigation }: LoginPageProps) => {
         },
     });
 
-    const { updateUserEmail, userEmail }: any = useContext(MainContext);
+    const { updateUserEmail, updateUserId }: any = useContext(MainContext);
 
     const onLogin = (userDetails: LoginInputs) => {
-        UsersService.login(userDetails).then(() => {
+        UsersService.login(userDetails).then((userId) => {
             updateUserEmail(userDetails.email);
+            updateUserId(userId);
             navigation.navigate('/');
         });
     }
